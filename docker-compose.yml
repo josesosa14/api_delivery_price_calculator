@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  db_postgres:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports: 
+      - '5432'
+    volumes:
+      - api:/var/lib/postgresql/data
+  api_delivery_price_calculator:
+    image: lizard14/api_delivery_price_calculator
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: db_postgres
+    depends_on:
+      - db_postgres
+    ports:
+      - '3000:3000'
+volumes:
+  api:
+
